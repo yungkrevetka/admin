@@ -153,12 +153,25 @@ cd ..
 system_update(){
 #полное обновление системы
 apt update 
-apt upgrade
 }
 
 installing_the_required_packages(){
+system_update
+apt install debian-archive-keyring
+cat > /etc/apt/sources.list <<X-service
+deb https://download.astralinux.ru/astra/stable/1.8_x86-64/repository-main/ 1.8_x86-64 main contrib non-free non-free-firmware>
+deb https://download.astralinux.ru/astra/stable/1.8_x86-64/repository-extended/ 1.8_x86-64 main contrib non-free non-free-firmware>
 
+deb http://deb.debian.org/debian bookworm main non-free-firmware
+deb-src http://deb.debian.org/debian bookworm main non-free-firmware
+deb http://deb.debian.org/debian-security/ bookworm-security main non-free-firmware
+deb-src http://deb.debian.org/debian-security/ bookworm-security main non-free-firmware
+deb http://deb.debian.org/debian bookworm-updates main non-free-firmware
+deb-src http://deb.debian.org/debian bookworm-updates main non-free-firmware
+
+X-service
 }
+
 
 restart_service(){
 systemctl enable smartd 
@@ -197,7 +210,7 @@ OPTION=$(whiptail --title  "Настройка клиента Astra Linux CE" --
 "5" "Установка антивируса Dr.Web" \
 "6" "Автоматическая установка пунктов 1-5" \
 "7" "Установка Ассистент" \
-"8" "Установка и\или обновление КриптоПроCSP+Cades+токены " \
+"8" "Установка и\или обновление КриптоПроCSP+Cades" \
 "9" "Установка и\или обновление плагина Госуслуги" 3>&1 1>&2 2>&3)
  
 exitstatus=$?
