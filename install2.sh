@@ -173,12 +173,23 @@ deb-src http://deb.debian.org/debian bookworm-updates main non-free-firmware
 
 X-service
 
-
-#Редактируем fstab
+#Включаем btrfs
 sed -i "s/\/home           btrfs   defaults/\/home           btrfs   autodefrag,noatime,space_cache=v2,compress-force=zstd:3,discard=async/g" etc/fstab
 mount -a
 btrfs quota enable /home
 apt install btrfs-compsize
+
+#Включить TRIM, если в системе установлен SSD
+ssd=`cat /sys/block/sda/queue/rotational`
+if [$ssd=0]; then
+    cp /usr/share/doc/util-linux/examples/fstrim.service /etc/systemd/system 
+    cp /usr/share/doc/util-linux/examples/fstrim.timer /etc/systemd/system 
+    systemctl enable fstrim.timer
+    sed -i 's/issue_discards = 0/issue_discards = 1/' /etc/lvm/lvm.conf
+fi
+
+# установка пакетов, необходимых для работы
+apt install screen htop smartmontools nfs-common rsync util-linux printer-driver-gutenprint printer-driver-splix printer-driver-cups-pdf xrdp simple-scan -y
 }
 
 
@@ -194,13 +205,13 @@ apt remove qbittorrent blender jag -y
 # автоочистка
 apt autoremove -y
 system_update
-
 }
 
 install15(){
 installing_the_required_packages
 remove_unnecessary_packages
 exact_time
+install_snapper
 install_DrWeb
 X11VNC_install
 }   
@@ -211,6 +222,14 @@ snapper -c home create-config /home
 snapper -c home create
 }
 
+install_rudesktop(){
+wget https://rudesktop.ru/download/rudesktop-astra-amd64.deb rudesktop/
+cd rudesktop
+chmod +x rudesktop-astra-amd64.deb
+./rudesktop-astra-amd64.deb -- --non-interactive
+}
+
+
 full_menu(){
 OPTION=$(whiptail --title  "Настройка клиента Astra Linux CE" --menu  "Выберите пункт:" "${HEIGHT}" "${WIDTH}" 9 \
 "1" "Установка требуемых пакетов\Обновление системы" \
@@ -219,7 +238,7 @@ OPTION=$(whiptail --title  "Настройка клиента Astra Linux CE" --
 "4" "Настройка сервиса X11VNC" \
 "5" "Установка антивируса Dr.Web" \
 "6" "Автоматическая установка пунктов 1-5" \
-"7" "Установка Snapper" \
+"7" "Установка RuDesktop" \
 "8" "Установка и\или обновление КриптоПроCSP+Cades" \
 "9" "Установка и\или обновление плагина Госуслуги" 3>&1 1>&2 2>&3)
  
@@ -237,7 +256,7 @@ case $OPTION in
    "4") X11VNC_install;operation_success;full_menu;;
    "5") install_DrWeb;operation_success;full_menu;;
    "6") install15;operation_success;full_menu;;
-   "7") install_snapper;operation_success;full_menu;;
+   "7") install_rudesktop;operation_success;full_menu;;
    "8") install_CryptoPro;operation_success;full_menu;;
    "9") install_Gosuslugi;operation_success;full_menu;;
 esac    
