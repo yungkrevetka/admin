@@ -177,7 +177,7 @@ X-service
 apt update
 
 #Включаем btrfs
-sed -i "s/\/home           btrfs   defaults/\/home           btrfs   autodefrag,noatime,space_cache=v2,compress-force=zstd:3,discard=async/g" etc/fstab
+sed -i "s/\/home\s*btrfs\s*defaults/\/home btrfs autodefrag,noatime,space_cache=v2,compress-force=zstd:3,discard=async/g" etc/fstab
 mount -a
 btrfs quota enable /home
 apt install btrfs-compsize
