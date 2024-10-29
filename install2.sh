@@ -188,6 +188,14 @@ if [$ssd=0]; then
     sed -i 's/issue_discards = 0/issue_discards = 1/' /etc/lvm/lvm.conf
 fi
 
+#драйвера для принтера и сканера Samsung
+wget -c https://archive.org/download/uld_V1.00.39_01.17.tar/uld_V1.00.39_01.17.tar.gz
+tar -xzf uld_V1.00.39_01.17.tar.gz
+cd uld 
+./install.sh
+cd ..
+restart_service
+
 # установка пакетов, необходимых для работы
 apt install screen htop smartmontools nfs-common rsync util-linux printer-driver-gutenprint printer-driver-splix printer-driver-cups-pdf xrdp simple-scan -y
 }
