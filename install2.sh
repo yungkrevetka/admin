@@ -223,15 +223,11 @@ snapper -c home create
 }
 
 install_rudesktop(){
-wget https://rudesktop.ru/download/rudesktop-astra-amd64.deb rudesktop/
+wget https://rudesktop.ru/download/rudesktop-astra-amd64.deb -P rudesktop/
 cd rudesktop
-apt install ./rudesktop-amd64.deb
+sudo dpkg -i rudesktop-astra-amd64.deb
 cd ..
-#chmod +x rudesktop-astra-amd64.deb
-#./rudesktop-astra-amd64.deb -- --non-interactive
 
-#отключаем Wayland
-#sed -i "s/#WaylandEnable=false/WaylandEnable=false/g" /etc/gdm/custom.conf
 }
 
 
