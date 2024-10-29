@@ -173,6 +173,8 @@ deb-src http://deb.debian.org/debian bookworm-updates main non-free-firmware
 
 X-service
 
+apt update
+
 #Включаем btrfs
 sed -i "s/\/home           btrfs   defaults/\/home           btrfs   autodefrag,noatime,space_cache=v2,compress-force=zstd:3,discard=async/g" etc/fstab
 mount -a
