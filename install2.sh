@@ -39,6 +39,7 @@ exact_time(){
 apt install chrony -y
 systemctl enable chrony
 systemctl start chrony
+install_snapper
 }
 
 install_CryptoPro(){
@@ -221,7 +222,6 @@ install15(){
 installing_the_required_packages
 remove_unnecessary_packages
 exact_time
-install_snapper
 install_DrWeb
 X11VNC_install
 }   
