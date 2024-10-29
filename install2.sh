@@ -36,7 +36,7 @@ clear
 
 
 exact_time(){
-apt install chrony
+apt install chrony -y
 systemctl enable chrony
 systemctl start chrony
 }
