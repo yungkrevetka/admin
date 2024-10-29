@@ -157,6 +157,8 @@ apt update
 
 installing_the_required_packages(){
 system_update
+
+#Добавляем репозитории debian
 apt install debian-archive-keyring
 cat > /etc/apt/sources.list <<X-service
 deb https://download.astralinux.ru/astra/stable/1.8_x86-64/repository-main/ 1.8_x86-64 main contrib non-free non-free-firmware>
@@ -170,6 +172,13 @@ deb http://deb.debian.org/debian bookworm-updates main non-free-firmware
 deb-src http://deb.debian.org/debian bookworm-updates main non-free-firmware
 
 X-service
+
+
+#Редактируем fstab
+sed -i "s/\/home           btrfs   defaults/\/home           btrfs   autodefrag,noatime,space_cache=v2,compress-force=zstd:3,discard=async/g" etc/fstab
+mount -a
+btrfs quota enable /home
+apt install btrfs-compsize
 }
 
 
