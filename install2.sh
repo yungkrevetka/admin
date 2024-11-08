@@ -235,7 +235,7 @@ snapper -c home create
 install_rudesktop(){
 wget https://rudesktop.ru/download/rudesktop-astra-amd64.deb -P rudesktop/
 cd rudesktop
-sudo dpkg -i rudesktop-astra-amd64.deb
+dpkg -i rudesktop-astra-amd64.deb
 cd ..
 
 }
