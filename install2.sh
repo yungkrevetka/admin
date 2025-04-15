@@ -120,6 +120,7 @@ wget -qO- --no-check-certificate "https://adm44.ru/i/u/%D0%A3%D0%A6%20%D0%90%D0%
 wget -qO- --no-check-certificate "https://adm44.ru/i/cert/262BF15DDCDC3BE3ECB0.crl"| /opt/cprocsp/bin/amd64/certmgr -inst -store mca -crl -stdin 
 wget -qO- --no-check-certificate "https://adm44.ru/i/cert/D19AD678765F765838D4.crl"| /opt/cprocsp/bin/amd64/certmgr -inst -store mca -crl -stdin
 wget -qO- --no-check-certificate "https://adm44.ru/i/cert/revock_03_2024.crl"| /opt/cprocsp/bin/amd64/certmgr -inst -store mca -crl -stdin
+wget -qO- --no-check-certificate "https://adm44.ru/i/cert/revock_03_2025.crl"| /opt/cprocsp/bin/amd64/certmgr -inst -store mca -crl -stdin
 wget -qO- --no-check-certificate "https://adm44.ru/i/cert/revock_2.crl"| /opt/cprocsp/bin/amd64/certmgr -inst -store mca -crl -stdin
 # Новый сертификат https://www.gosuslugi.ru/crt
 wget -qO- --no-check-certificate "https://gu-st.ru/content/Other/doc/russian_trusted_root_ca.cer"|/opt/cprocsp/bin/amd64/certmgr -inst -store mRoot -stdin
